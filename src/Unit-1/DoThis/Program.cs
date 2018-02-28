@@ -33,16 +33,16 @@ namespace WinTail
 
             MyActorSystem = ActorSystem.Create("MyActorSystem", AkkaConfig);
 
-            var consoleWriterProps = Props.Create<ConsoleWriterActor>();
+            var consoleWriterProps = Props.Create(() => new ConsoleWriterActor());
             var consoleWriterActor = MyActorSystem.ActorOf(consoleWriterProps, "consoleWriterActor");
 
             var tailCoordinatorProps = Props.Create(() => new TailCoordinatorActor());
             var tailCoordinatorActor = MyActorSystem.ActorOf(tailCoordinatorProps, "tailCoordinatorActor");
 
-            var validationActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor, tailCoordinatorActor));
+            var validationActorProps = Props.Create(() => new FileValidatorActor(consoleWriterActor));
             var validationActor = MyActorSystem.ActorOf(validationActorProps, "validationActor");
 
-            var consoleReaderProps = Props.Create<ConsoleReaderActor>(validationActor);
+            var consoleReaderProps = Props.Create(() => new ConsoleReaderActor());
             var consoleReaderActor = MyActorSystem.ActorOf(consoleReaderProps, "consoleReaderActor");
 
             // tell console reader to begin
