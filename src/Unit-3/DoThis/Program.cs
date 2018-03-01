@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Configuration;
+using System.Net;
 using System.Windows.Forms;
 using Akka.Actor;
-using Akka.Configuration.Hocon;
 
 namespace GithubActors
 {
@@ -20,6 +19,8 @@ namespace GithubActors
         [STAThread]
         static void Main()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             GithubActors = ActorSystem.Create("GithubActors");
 
             Application.EnableVisualStyles();
